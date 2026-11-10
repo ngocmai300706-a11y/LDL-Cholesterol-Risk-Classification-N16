@@ -1,194 +1,152 @@
+# -*- coding: utf-8 -*-
+"""
+THÍ NGHIỆM ABLATION STUDY & CHỨNG MINH LIPID CIRCULARITY (GAP 1)
+Cho dự án: LDL Cholesterol Levels Classification (NHANES 2021-2023)
+"""
+
+import os
+import warnings
 import numpy as np
 import pandas as pd
-from imblearn.over_sampling import SMOTE
-from imblearn.pipeline import Pipeline as ImbPipeline
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import SelectKBest, VarianceThreshold, f_classif
-from sklearn.impute import KNNImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
-from sklearn.model_selection import StratifiedKFold, train_test_split
-from sklearn.preprocessing import StandardScaler
-from xgboost import XGBClassifier
+import matplotlib.pyplot as plt
+from scipy.stats import wilcoxon
 
-# =====================================================================
-# HÀM XỬ LÝ DÙNG CHUNG CHO ABLATION STUDY
-# =====================================================================
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.dummy import DummyClassifier
+from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.impute import KNNImputer
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+from sklearn.model_selection import train_test_split, RepeatedStratifiedKFold
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+warnings.filterwarnings('ignore')
+
+# ---------------------------------------------------------------- CẤU HÌNH
 RANDOM_STATE = 42
 MAX_MISSING_RATIO = 0.4
-CORR_THRESHOLD = 0.85
-K_BEST = 15
+N_SPLITS, N_REPEATS = 5, 3
+CLASS_NAMES = ['Optimal', 'Near optimal', 'Borderline high', 'High', 'Very high']
+BINS = [100, 130, 160, 190]  # ATP III Tiers
 
+# ---------------------------------------------------------------- TIỀN XỬ LÝ DỮ LIỆU
+def prepare_data_from_df(df):
+    """
+    Xử lý từ DataFrame đã merge (nhanes_full_merged_raw.csv hoặc tương tự)
+    """
+    df = df.dropna(subset=['LBDLDL']).copy()
+    if 'RIDAGEYR' in df.columns:
+        df = df[df['RIDAGEYR'] >= 18]
+    if 'BMXBMI' in df.columns:
+        df = df[(df['BMXBMI'] >= 10) & (df['BMXBMI'] <= 90)]
 
-class CorrelationFilter(BaseEstimator, TransformerMixin):
+    # Xử lý mã thiếu NHANES
+    for c in df.columns:
+        if c.startswith(('PAQ', 'SMQ', 'SLQ')):
+            df[c] = df[c].replace([7, 9], np.nan)
+        elif c.startswith(('PAD', 'SMD')):
+            df[c] = df[c].replace([777, 999, 7777, 9999], np.nan)
 
-  def __init__(self, threshold=0.85):
-    self.threshold = threshold
+    # Tạo nhãn target 5 lớp ATP III
+    y = pd.Series(np.digitize(df['LBDLDL'], BINS), index=df.index, name='ldl_class')
 
-  def fit(self, X, y=None):
-    X = np.asarray(X, dtype=float)
-    corr = np.nan_to_num(np.abs(np.corrcoef(X, rowvar=False)))
-    upper = np.triu(corr, k=1)
-    drop = [
-        j for j in range(upper.shape[1]) if (upper[:, j] > self.threshold).any()
-    ]
-    self.keep_ = np.array([j for j in range(X.shape[1]) if j not in drop])
-    return self
+    # Loại bỏ các biến rò rỉ và biến thiết kế mẫu
+    drop_cols = ['SEQN', 'SDDSRVYR', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA', 'RIDEXMON', 'RIDRETH1']
+    for c in df.columns:
+        if c.startswith('LBDLDL') or c.startswith('WT'):
+            drop_cols.append(c)
+        elif c.endswith('LC') or (c.startswith(('BMI', 'BMD')) and c != 'BMXBMI'):
+            drop_cols.append(c)
+        elif c.endswith('SI'):
+            drop_cols.append(c)
 
-  def transform(self, X):
-    return np.asarray(X, dtype=float)[:, self.keep_]
+    drop_cols = [c for c in set(drop_cols) if c in df.columns]
+    X = df.drop(columns=drop_cols).select_dtypes(include=[np.number])
 
+    if 'RIDRETH3' in X.columns:
+        X = pd.get_dummies(X, columns=['RIDRETH3'], prefix='RACE', dtype=float)
 
-def run_experiment(use_lipid, use_biopro, model_name):
-  # 1. Đọc và gộp dữ liệu
-  df_demo = pd.read_sas('DEMO_L.xpt')
-  df_bmx = pd.read_sas('BMX_L.xpt')
-  df_trigly = pd.read_sas('TRIGLY_L.xpt')
-  df_tchol = pd.read_sas('TCHOL_L.xpt')
-  df_hdl = pd.read_sas('HDL_L.xpt')
-  df_smq = pd.read_sas('SMQ_L.xpt')
-  df_paq = pd.read_sas('PAQ_L.xpt')
-  df_slq = pd.read_sas('SLQ_L.xpt')
-  df_biopro = pd.read_sas('BIOPRO_L.xpt')
-  df_bpxo = pd.read_sas('BPXO_L.xpt')
+    # Phân lập nhóm biến Lipid và Phi-Lipid
+    lipid_prefix = ('LBXTC', 'LBDTC', 'LBDHDD', 'LBXTLG', 'LBDTLG', 'LBXSCH', 'LBDSCH', 'LBXSTR', 'LBDSTR')
+    lipid_present = [c for c in X.columns if c.startswith(lipid_prefix)]
 
-  merged_full = (
-      df_demo.merge(df_bmx, on='SEQN', how='inner')
-      .merge(df_trigly, on='SEQN', how='inner')
-      .merge(df_tchol, on='SEQN', how='inner')
-      .merge(df_hdl, on='SEQN', how='inner')
-      .merge(df_bpxo, on='SEQN', how='left')
-      .merge(df_smq, on='SEQN', how='left')
-      .merge(df_paq, on='SEQN', how='left')
-      .merge(df_slq, on='SEQN', how='left')
-      .merge(df_biopro, on='SEQN', how='left')
-  )
+    if not lipid_present:
+        raise RuntimeError('Không tìm thấy các cột lipid (LBXTC, LBDHDD, LBXTLG) trong dữ liệu.')
 
-  # 2. Làm sạch cơ bản
-  df_clean = merged_full.dropna(subset=['LBDLDL']).copy()
-  if 'RIDAGEYR' in df_clean.columns:
-    df_clean = df_clean[df_clean['RIDAGEYR'] >= 18]
-  if 'BMXBMI' in df_clean.columns:
-    df_clean = df_clean[(df_clean['BMXBMI'] >= 10) & (df_clean['BMXBMI'] <= 90)]
+    X_lipid = X[lipid_present].copy()
+    X_non = X.drop(columns=lipid_present).copy()
 
-  for col in df_clean.columns:
-    if col.startswith(('PAQ', 'SMQ', 'SLQ')):
-      df_clean[col] = df_clean[col].replace([7, 9], np.nan)
-    elif col.startswith(('PAD', 'SMD')):
-      df_clean[col] = df_clean[col].replace([777, 999, 7777, 9999], np.nan)
+    return X_lipid, X_non, X, y, df
 
-  df_clean['risk_level'] = pd.cut(
-      df_clean['LBDLDL'],
-      bins=[-np.inf, 100, 160, np.inf],
-      right=False,
-      labels=[0, 1, 2],
-  ).astype(int)
+# ---------------------------------------------------------------- PIPELINE
+class MissingFilter(BaseEstimator, TransformerMixin):
+    def __init__(self, max_ratio=0.4):
+        self.max_ratio = max_ratio
 
-  drop_cols = ['SEQN', 'risk_level', 'SDDSRVYR', 'RIDSTATR', 'SDMVPSU', 'SDMVSTRA']
-  for col in df_clean.columns:
-    if col.startswith('LBDLDL') or col.startswith('WT') or col.endswith('SI'):
-      drop_cols.append(col)
-    elif col.endswith('LC') or (
-        col.startswith(('BMI', 'BMD')) and col != 'BMXBMI'
-    ):
-      drop_cols.append(col)
+    def fit(self, X, y=None):
+        self.mask_ = np.isnan(np.asarray(X, float)).mean(axis=0) < self.max_ratio
+        if not self.mask_.any():
+            self.mask_[:] = True
+        return self
 
-  if not use_biopro:
-    drop_cols += [c for c in df_biopro.columns if c != 'SEQN']
+    def transform(self, X):
+        return np.asarray(X, float)[:, self.mask_]
 
-  if not use_lipid:
-    lipid_prefixes = (
-        'LBXTC',
-        'LBDTC',
-        'LBDHDD',
-        'LBXTLG',
-        'LBDTLG',
-        'LBXSCH',
-        'LBDSCH',
-        'LBXSTR',
-        'LBDSTR',
-    )
-    drop_cols += [c for c in df_clean.columns if c.startswith(lipid_prefixes)]
+def make_pipe():
+    return Pipeline([
+        ('missing', MissingFilter(MAX_MISSING_RATIO)),
+        ('scaler', StandardScaler()),
+        ('imputer', KNNImputer(n_neighbors=5)),
+        ('clf', HistGradientBoostingClassifier(random_state=RANDOM_STATE, class_weight='balanced'))
+    ])
 
-  drop_cols = [c for c in set(drop_cols) if c in df_clean.columns]
-  X_raw = df_clean.drop(columns=drop_cols).select_dtypes(include=[np.number])
-  y = df_clean['risk_level']
+# ---------------------------------------------------------------- THÍ NGHIỆM E1, E2, E3
+def run_experiments(df_raw):
+    X_lipid, X_non, X_all, y, df = prepare_data_from_df(df_raw)
+    print(f"Tổng số mẫu n = {len(y)} | Số đặc trưng: Lipid={X_lipid.shape[1]}, Phi-lipid={X_non.shape[1]}, Tất cả={X_all.shape[1]}")
 
-  if 'RIDRETH3' in X_raw.columns:
-    X_raw = pd.get_dummies(X_raw, columns=['RIDRETH3'], prefix='RACE', dtype=float)
-  X_raw = X_raw.drop(columns=['RIDRETH1'], errors='ignore')
+    # E1. Kiểm tra công thức Friedewald
+    print("\n" + "="*60)
+    print("E1. KHẢO SÁT RÒ RỈ CÔNG THỨC FRIEDEWALD")
+    print("="*60)
+    if all(k in df.columns for k in ['LBXTC', 'LBDHDD', 'LBXTLG']):
+        tc, hdl, tg = df['LBXTC'], df['LBDHDD'], df['LBXTLG']
+        ldl_f = tc - hdl - tg / 5.0
+        ok = ldl_f.notna() & df['LBDLDL'].notna()
+        cls_f = np.digitize(ldl_f[ok], BINS)
+        r2 = np.corrcoef(ldl_f[ok], df.loc[ok, 'LBDLDL'])[0, 1] ** 2
+        print(f"R^2 (Friedewald vs LBDLDL): {r2:.4f}")
+        print(f"Macro-F1 nếu dùng thuần công thức: {f1_score(y[ok], cls_f, average='macro'):.4f}")
 
-  if 'LBXTLG' in X_raw.columns:
-    X_raw['LBXTLG_log'] = np.log1p(X_raw['LBXTLG'])
+    # E2. Thí nghiệm Ablation
+    print("\n" + "="*60)
+    print("E2. THÍ NGHIỆM ABLATION PHÂN TÁCH NHÓM BIẾN")
+    print("="*60)
+    sets = {'[A] Lipid-only': X_lipid, '[B] Non-lipid': X_non, '[C] All features': X_all}
+    idx_tr, idx_te = train_test_split(y.index, test_size=0.2, random_state=RANDOM_STATE, stratify=y)
+    
+    results = []
+    for name, X_data in sets.items():
+        pipe = make_pipe().fit(X_data.loc[idx_tr], y.loc[idx_tr])
+        pred = pipe.predict(X_data.loc[idx_te])
+        yt = y.loc[idx_te]
+        results.append({
+            'Feature Set': name,
+            'Test Acc': accuracy_score(yt, pred),
+            'Test Macro-F1': f1_score(yt, pred, average='macro')
+        })
+    
+    res_df = pd.DataFrame(results)
+    print(res_df.to_string(index=False))
+    return res_df
 
-  # 3. Chia tập dữ liệu
-  X_train, X_test, y_train, y_test = train_test_split(
-      X_raw, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y
-  )
-  missing_ratio = X_train.isna().mean()
-  keep_cols = missing_ratio[missing_ratio < MAX_MISSING_RATIO].index
-  X_train, X_test = X_train[keep_cols], X_test[keep_cols]
-
-  k_best = min(K_BEST, X_train.shape[1])
-
-  if model_name == 'Logistic Regression':
-    clf = LogisticRegression(max_iter=1000, random_state=RANDOM_STATE)
-  elif model_name == 'Random Forest':
-    clf = RandomForestClassifier(random_state=RANDOM_STATE, n_jobs=-1)
-  else:
-    clf = XGBClassifier(random_state=RANDOM_STATE, eval_metric='mlogloss')
-
-  pipe = ImbPipeline([
-      ('scaler', StandardScaler()),
-      ('imputer', KNNImputer(n_neighbors=5)),
-      ('var', VarianceThreshold(threshold=0.0)),
-      ('corr', CorrelationFilter(threshold=CORR_THRESHOLD)),
-      ('kbest', SelectKBest(score_func=f_classif, k=k_best)),
-      ('smote', SMOTE(random_state=RANDOM_STATE)),
-      ('clf', clf),
-  ])
-
-  pipe.fit(X_train, y_train)
-  y_pred = pipe.predict(X_test)
-  return accuracy_score(y_test, y_pred), f1_score(
-      y_test, y_pred, average='macro'
-  )
-
-
-# =====================================================================
-# CHẠY THÍ NGHIỆM ABLATION
-# =====================================================================
+# ---------------------------------------------------------------- HÀM CHẠY CHÍNH
 if __name__ == '__main__':
-  print('=== BẮT ĐẦU CHẠY NGHIÊN CỨU CẮT BỎ (ABLATION STUDY) ===')
-
-  scenarios = [
-      {
-          'name': 'Kịch bản 1: Đầy đủ (Invasive + Lipid + Biopro)',
-          'lipid': True,
-          'biopro': True,
-      },
-      {
-          'name': 'Kịch bản 2: Không xâm lấn (Bỏ Lipid & Biopro)',
-          'lipid': False,
-          'biopro': False,
-      },
-  ]
-
-  ablation_results = []
-  for scen in scenarios:
-    print(f"\nĐang chạy: {scen['name']}...")
-    for model_name in ['Logistic Regression', 'Random Forest', 'XGBoost']:
-      acc, f1m = run_experiment(scen['lipid'], scen['biopro'], model_name)
-      ablation_results.append({
-          'Scenario': scen['name'],
-          'Model': model_name,
-          'Accuracy': acc,
-          'Macro-F1': f1m,
-      })
-
-  df_ablation = pd.DataFrame(ablation_results)
-  print(
-      '\n================ KẾT QUẢ ABLATION STUDY ================\n'
-  )
-  print(df_ablation.round(4).to_string(index=False))
+    # THAY ĐỔI ĐƯỜNG DẪN TỆP DỮ LIỆU MERGED CỦA BẠN TẠI ĐÂY
+    data_path = 'nhanes_full_merged_raw.csv' 
+    if os.path.exists(data_path):
+        df_raw = pd.read_csv(data_path)
+        run_experiments(df_raw)
+    else:
+        print(f"Không tìm thấy file {data_path}. Vui lòng kiểm tra lại đường dẫn dữ liệu!")
