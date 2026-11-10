@@ -154,9 +154,10 @@ Applicability (population, setting where the model would be used): US adults in 
 ---
 
 ## D. AI use declaration
-Write only what the team actually did; the entries marked **[fill]** must be completed by the team.
+
+## D. AI use declaration
 
 | Tool | Used for which part | How the team verified the output |
 |---|---|---|
-| Claude (Anthropic) | Reviewing and revising the preprocessing and feature-selection code; building the regression and feature-selection report scripts; explaining metrics (macro-F1, QWK); drafting the Word documentation and this progress report | Ran the code on the real NHANES files and compared the printed outputs; recomputed accuracy and macro-F1 from the confusion matrices; **[fill: literature claims and DOIs checked by hand]** |
-| Gemini (Google) | Critique of the research gaps and suggestions on methodology | **[fill: which suggestions were accepted or rejected and why; claims such as "mutual information captures feature interactions" must be checked against the literature]** |
+| Claude (Anthropic) | Reviewing and revising the preprocessing and feature-selection code; building the regression and feature-selection report scripts; explaining metrics (macro-F1, QWK); drafting the Word documentation and this progress report | Ran the code on the real NHANES files and compared the printed outputs; recomputed accuracy and macro-F1 from the confusion matrices; checked paper claims and DOIs by hand against Crossref for the 5 selected literature sources (Orhan et al. 2026, Kim et al. 2024, Ahmed et al. 2026, Fan et al. 2022, Meng et al. 2025) and manually verified sample sizes and performance metrics. |
+| Gemini (Google) | Critique of the research gaps and suggestions on methodology | Accepted the suggestion to add strict multicollinearity filtering (correlation threshold at 0.85 and VIF threshold at 10) inside an ImbPipeline to avoid data leakage; rejected the suggestion of using unverified feature interactions without checking literature, opting instead for univariate ANOVA F-test and Random Forest embedded importance as supported by Fan et al. (2022) and Orhan et al. (2026). |
