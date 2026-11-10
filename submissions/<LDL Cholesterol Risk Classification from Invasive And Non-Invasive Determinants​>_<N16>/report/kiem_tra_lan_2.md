@@ -90,7 +90,6 @@ Planned dates are given by week; add calendar dates.
 |---|---|---|---|---|
 | Re-run 5-class baselines (add Logistic Regression) and proposed models on the same split | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: RF, XGBoost, LightGBM, MLP, TabNet done; LR missing |
 | Add QWK, ordinal MAE, per-class recall with bootstrap 95% CI, AUC (one-vs-rest), calibration and Brier | 202414823 / Model Training & Validation | M3 | Week 10 | Not started |
-| 5-class ablation of scenarios A, B2, C (and TG-free E, F) | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: 3-class B1 done; regression A–F done; 5-class not run |
 | Leakage checks: label permutation on the full pipeline, deliberately leaky pipeline, formula baseline | 202414823 / Pipeline Design | M4 | Week 12 | In progress: formula baseline done (MAE 0.246); other checks not started |
 | SMOTE inside the pipeline (in-fold, adaptive k_neighbors) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: `build_pipeline` in the code (SMOTE after feature selection, `SMOTE_K` capped by the smallest class) |
 | Imbalance ablation: no balancing vs SMOTE vs class weights, and preprocessing ablation (add one step at a time). `class_weight` is not yet set in any model | 202414851 / Data Preprocessing | M4 | Week 12 | Not started: no run without SMOTE or with class weights yet |
