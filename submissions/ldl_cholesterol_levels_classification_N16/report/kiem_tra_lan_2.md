@@ -1,6 +1,6 @@
 # Progress Test 2 — group-16 — ldl-cholesterol-classification
 
-- Fork: <URL> · Branch: gd5-proposed-model
+- Fork: https://github.com/ngocmai300706-a11y/hymt-project/tree/gd5-proposed-model · Branch: gd5-proposed-model
 - Members (student ID or alias) and roles:
   - 202414823: Literature Review, Pipeline Design, Model Training & Validation.
   - 202414851: Literature Review, Data Preprocessing, XAI (SHAP).
@@ -41,7 +41,7 @@ Inclusion / exclusion criteria:
 |---|---|---|---|
 | G1 | **Existing lipid blood test-only models omit vital clinical and demographic variables, creating a gap in model personalization, subgroup stability, and cross-population generalizability​** |  #9, #10, | Adding non-invasive determinants and examines its role in LDL-C levels estimation. |
 | G2 | **Boundary Error when predicting continuous LDL-C values via regression and manually map them into ATP III tiers ** | #13| Direct LDL-C levels classification​ |
-| G3 | **Imputation, outlier handling and importance ranking are done before data splitting, no VIF or correlation filtering is reported, Undersampling and importance-based reduction are applied before cross-validation (Leakage Risk)** | #6, #8, #11 |  |
+| G3 | **Imputation, outlier handling and importance ranking are done before data splitting, no VIF or correlation filtering is reported, Undersampling and importance-based reduction are applied before cross-validation (Leakage Risk)** | #1, #2, #5, #8, #12, |  
 | G4 | **Only evaluate on basic machine learning models​, Deep learning is not tested when contains non-linear features (non- invasive determinants)** | #1 -> #12| We train and test on LightBGM for machine learning model and TabNet, MLP for deep learning |
 
 ### A4. PROBAST+AI appraisal of the most important paper in A2
