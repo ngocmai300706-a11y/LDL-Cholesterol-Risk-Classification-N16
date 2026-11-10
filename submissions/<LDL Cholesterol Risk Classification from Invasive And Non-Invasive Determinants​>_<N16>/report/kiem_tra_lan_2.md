@@ -25,15 +25,15 @@ Inclusion / exclusion criteria:
 | 1 | Fazakis et al. (2021) | DOI:10.5220/0010727200003063 | ELSA (n=7,526) | RF, Naive Bayes, SVM, ANN | Accuracy: 56.0%–63.0% | No | Low predictive power using non-invasive features alone |
 | 2 | García-D'Urso et al. (2022) | DOI:10.1109/ACCESS.2022.3168231 | Overweight adults (n=84) | SVR, RFE, Permutation Importance | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
 | 3 | Kwon et al. (2022) | DOI:10.3389/fcvm.2022.846545 | Health-check (n=129,930) | Pyramid DNN | R²: 0.94–0.96 | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
-| 4 | Li et al. (2022) | 10.1186/s12944-022-01655-y | NHANES 2007–2018 (n=15,499) | Multivariable Logistic Regression | Adjusted Odds Ratios | No | Descriptive epidemiological study; no ML predictive modelling |
+| 4 | Li et al. (2022) | DOI:10.1186/s12944-022-01721-y | NHANES 2007–2018 (n=15,499) | Multivariable Logistic Regression | Adjusted Odds Ratios | No | Descriptive epidemiological study; no ML predictive modelling |
 | 5 | Fan et al. (2022) | DOI:10.1016/j.cca.2022.08.007 | Chinese profiles (n=111,448) | Auto-WEKA, RF, Decision Trees | Correlation r > 0.97 | Yes (3 sets) | Feature engineering consists of direct algebraic lipid ratios |
 | 6 | Kim et al. (2024) | DOI:10.1093/labmed/lmad114 | KNHANES (n=9,402) | 2-step ML (Linear + XGB/RF) | Concordance: 82.5% | Yes (Independent years) | Poor performance/concordance at extreme high tiers (LDL ≥ 190) |
 | 7 | Han et al. (2025) | DOI:10.1038/s41598-025-88693-y | CAD patients EMR (n=9,402) | XGBoost, RF, LR + SHAP | AUROC: 0.69–0.71 | No | 48% sample loss due to missing follow-up LDL (selection bias) |
 | 8 | Mansoori et al. (2025) | DOI:10.1007/s44200-025-00089-5 | MASHAD cohort (n=7,526) | Logistic Regression, Decision Trees | Reported Acc: 81.9% | No | Evaluated metrics on training set; high standard errors |
-| 9 | Orhan et al. (2026) | DOI:10.3390/diagnostics16132031 | NHANES 2015–2018 (n=4,461) | Friedewald vs. Martin vs. Sampson | Cohen's kappa: 0.78–0.85 | No | Rare extreme class (LDL ≥ 190 mg/dL is only ~2.3–2.6%) |
-| 10 | Ahmed et al. (2026) | DOI: 10.1016/j.clinsp.2026.101068 | Dubai Lipid Profiles (n=96,492) | RF, SVR, XGBoost, LR | R² ≈ 1.0 (TG < 400) | No | Incorporates lipid circularity by relearning Friedewald formula |
-| 11 | Al Dhuhli et al. (2026) | 10.1016/j.plabm.2026.e00312 | Clinical sera (n=303) | 4-layer ANN, Lasso, SVM | RMSE reduction | No | Small n; includes VLDL (=TG/2.2) alongside TG (high collinearity) |
-| 12 | Orhan et al. (2026) | 10.3390/diagnostics16020123 | LIS clinical dataset (n=11,681) | XGBoost, RF, LightGBM | Accuracy: ~88.4% | No | Inputs strictly limited to TC, TG, HDL; no non-invasive variables |
+| 9 | PeerJ. (2025) | 10.1016/j.plabm.2026.e00312 | Clinical sera (n=303) | 4-layer ANN, Lasso, SVM | RMSE reduction | No | Small n; includes VLDL (=TG/2.2) alongside TG (high collinearity) |
+| 10 | Orhan et al. (2026) | DOI:10.3390/diagnostics16132031 | LIS clinical dataset (n=11,681) | XGBoost, RF, LightGBM | Accuracy: ~88.4% | No | Inputs strictly limited to TC, TG, HDL; no non-invasive variables |
+| 11 | Ahmed et al. (2026) | DOI: 10.1016/j.clinsp.2026.101068 | Dubai Lipid Profiles (n=96,492) | RF, SVR, XGBoost, LR | R² ≈ 1.0 (TG < 400) | No | Incorporates lipid circularity by relearning Friedewald formula |
+| 12 | Al Dhuhli et al. (2026) | DOI: 10.1016/j.plabm.2026.e00524 | Clinical sera (n=303) | 4-layer ANN, Lasso, SVM | RMSE reduction | No | Small n; includes VLDL (=TG/2.2) alongside TG (high collinearity) |
 
 ### A3. Research gaps
 | ID | Gap (1–2 sentences) | Evidence (# in A2) | How your project addresses it |
