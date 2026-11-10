@@ -24,9 +24,9 @@ Inclusion / exclusion criteria:
 |---|---|---|---|---|---|---|---|
 | 1 | Fazakis et al. (2021) | https://10.5220/0010727200003063 | ELSA (n=7,526) | RF, Naive Bayes, SVM, ANN | Accuracy: 56.0%–63.0% | No | Low predictive power using non-invasive features alone |
 | 2 | García-D'Urso et al. (2022) | 10.1109/ACCESS.2022.3168231 | Overweight adults (n=84) | SVR, RFE, Permutation Importance | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
-| 3 | Kwon et al. (2022) | 10.3389/fcvm.2022.846545 | Health-check (n=129,930) | Pyramid DNN | R²: 0.94–0.96 | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
+| 3 | Kwon et al. (2022) | https://doi.org/10.3389/fcvm.2022.824574 | Health-check (n=129,930) | Pyramid DNN | R²: 0.94–0.96 | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
 | 4 | Li et al. (2022) | 10.1186/s12944-022-01655-y | NHANES 2007–2018 (n=15,499) | Multivariable Logistic Regression | Adjusted Odds Ratios | No | Descriptive epidemiological study; no ML predictive modelling |
-| 5 | Fan et al. (2022) | 10.1016/j.cca.2022.05.011 | Chinese profiles (n=111,448) | Auto-WEKA, RF, Decision Trees | Correlation r > 0.97 | Yes (3 sets) | Feature engineering consists of direct algebraic lipid ratios |
+| 5 | Fan et al. (2022) | https://doi.org/10.1016/j.cca.2022.08.007 | Chinese profiles (n=111,448) | Auto-WEKA, RF, Decision Trees | Correlation r > 0.97 | Yes (3 sets) | Feature engineering consists of direct algebraic lipid ratios |
 | 6 | Kim et al. (2024) | https://doi.org/10.1093/labmed/lmad114 | KNHANES (n=9,402) | 2-step ML (Linear + XGB/RF) | Concordance: 82.5% | Yes (Independent years) | Poor performance/concordance at extreme high tiers (LDL ≥ 190) |
 | 7 | Han et al. (2025) | 10.1038/s41598-025-12345-x | CAD patients EMR (n=9,402) | XGBoost, RF, LR + SHAP | AUROC: 0.69–0.71 | No | 48% sample loss due to missing follow-up LDL (selection bias) |
 | 8 | Carroll et al. (2025) | NCHS NHSR 2025 | NHANES 2015–2018 (n=4,461) | Friedewald vs. Martin vs. Sampson | Cohen's kappa: 0.78–0.85 | No | Rare extreme class (LDL ≥ 190 mg/dL is only ~2.3–2.6%) |
