@@ -1,6 +1,6 @@
 # Progress Test 2 — group-16 — ldl-cholesterol-classification
 
-- Fork: <URL> · Branch: gd5-proposed-model
+- Fork: https://github.com/ngocmai300706-a11y/hymt-project/tree/gd5-proposed-model · Branch: gd5-proposed-model
 - Members (student ID or alias) and roles:
   - 202414823: Literature Review, Pipeline Design, Model Training & Validation.
   - 202414851: Literature Review, Data Preprocessing, XAI (SHAP).
