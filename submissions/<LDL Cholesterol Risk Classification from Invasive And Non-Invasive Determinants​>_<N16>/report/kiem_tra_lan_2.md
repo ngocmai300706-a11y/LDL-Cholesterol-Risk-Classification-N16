@@ -22,9 +22,9 @@ Inclusion / exclusion criteria:
 ### A2. Literature matrix (≥ 10 papers, preferably from the last 3–5 years)
 | # | Paper (authors, year) | DOI / link | Dataset (n, source) | Method | Main result (metric, value) | External validation? (yes / no) | Main limitation |
 |---|---|---|---|---|---|---|---|
-| 1 | Fazakis et al. (2021) | DOI:10.5220/0010727200003063 | ELSA (n=7,526) | RF, Naive Bayes, SVM, ANN | Accuracy: 56.0%–63.0% | No | Low predictive power using non-invasive features alone |
-| 2 | García-D'Urso et al. (2022) | DOI:10.1109/ACCESS.2022.3168231 | Overweight adults (n=84) | SVR, RFE, Permutation Importance | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
-| 3 | Kwon et al. (2022) | DOI:10.3389/fcvm.2022.846545 | Health-check (n=129,930) | Pyramid DNN | R²: 0.94–0.96 | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
+| 1 | Fazakis et al. (2021) | DOI:10.5220/0010727200003063 | ELSA (n=7,526) | 8 ML models, 10-fold CV, undersampling, 22 features (Gini & Stepwise) | Accuracy: 56.0%–63.0% | No | Low predictive power using non-invasive features alone |
+| 2 | García-D'Urso et al. (2022) | DOI:10.1109/ACCESS.2022.3168231 | Overweight adults (n=84) | ETR, RFE, Hyperparameter Optimization, RFR | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
+| 3 | Kwon et al. (2022) | DOI:10.3389/fcvm.2022.846545 | Health-check (n=129,930 GSHC + n=46,470 KOICA) | Pyramid DNN with 6 hidden layers (30 nodes/layer), 10-fold CV | Superior accuracy compared to Friedewald and NIH equations | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
 | 4 | Li et al. (2022) | DOI:10.1186/s12944-022-01721-y | NHANES 2007–2018 (n=15,499) | Multivariable Logistic Regression | Adjusted Odds Ratios | No | Descriptive epidemiological study; no ML predictive modelling |
 | 5 | Fan et al. (2022) | DOI:10.1016/j.cca.2022.08.007 | Chinese profiles (n=111,448) | Auto-WEKA, RF, Decision Trees | Correlation r > 0.97 | Yes (3 sets) | Feature engineering consists of direct algebraic lipid ratios |
 | 6 | Kim et al. (2024) | DOI:10.1093/labmed/lmad114 | KNHANES (n=9,402) | 2-step ML (Linear + XGB/RF) | Concordance: 82.5% | Yes (Independent years) | Poor performance/concordance at extreme high tiers (LDL ≥ 190) |
