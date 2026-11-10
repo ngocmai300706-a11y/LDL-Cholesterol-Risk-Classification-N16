@@ -41,8 +41,7 @@ Inclusion / exclusion criteria:
 |---|---|---|---|
 | G1 | **Existing lipid blood test-only models omit vital clinical and demographic variables, creating a gap in model personalization, subgroup stability, and cross-population generalizability​** |  #9, #10, | Adding non-invasive determinants and examines its role in LDL-C levels estimation. |
 | G2 | **Boundary Error when predicting continuous LDL-C values via regression and manually map them into ATP III tiers ** | #13| Direct LDL-C levels classification​ |
-| G3 | **Imputation, outlier handling and importance ranking are done before data splitting, no VIF or correlation filtering is reported, Undersampling and importance-based reduction are applied before cross-validation (Leakage Risk)** | #1, #2, #5, #8, #12, |  Stratified split first; every step (missing filter, scaler, KNN imputer, filters, selection, SMOTE) sits in an ImbPipeline and is refitted in each fold.​ CorrelationFilter (|r|>0.85) and VIFFilter (VIF>10) inside each fold.​ |
-
+| G3 | **Imputation, outlier handling and importance ranking are done before data splitting, no VIF or correlation filtering is reported, Undersampling and importance-based reduction are applied before cross-validation (Leakage Risk)** | #1, #2, #5, #8, #12, |  Stratified split first; every step (missing filter, scaler, KNN imputer, filters, selection, SMOTE) sits in an ImbPipeline and is refitted in each fold.​ CorrelationFilter and VIFFilter inside each fold.​ |
 | G4 | **Only evaluate on basic machine learning models​, Deep learning is not tested when contains non-linear features (non- invasive determinants)** | #1 -> #12| We train and test on LightBGM for machine learning model and TabNet, MLP for deep learning |
 
 ### A4. PROBAST+AI appraisal of the most important paper in A2
