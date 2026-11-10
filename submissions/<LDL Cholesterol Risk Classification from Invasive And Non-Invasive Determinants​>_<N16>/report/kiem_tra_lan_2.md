@@ -40,9 +40,9 @@ Inclusion / exclusion criteria:
 | ID | Gap (1–2 sentences) | Evidence (# in A2) | How your project addresses it |
 |---|---|---|---|
 | G1 | **Existing lipid blood test-only models omit vital clinical and demographic variables, creating a gap in model personalization, subgroup stability, and cross-population generalizability​** |  #9, #10, | Adding non-invasive determinants and examines its role in LDL-C levels estimation. |
-| G2 | **Predict continuous LDL-C values via regression and manually map them into ATP III tiers (5 class)** | #2, #7, #9 | We encapsulate all transformations (missing value filtering, scaling, KNN imputation, correlation/VIF filters, ANOVA selection, SMOTE) strictly inside an `ImbPipeline`. |
+| G2 | **Boundary Error when predicting continuous LDL-C values via regression and manually map them into ATP III tiers ** | #13| Direct LDL-C levels classification​ |
 | G3 | **Imputation, outlier handling and importance ranking are done before data splitting, no VIF or correlation filtering is reported, Undersampling and importance-based reduction are applied before cross-validation (Leakage Risk)** | #6, #8, #11 |  |
-| G4 | ** Only evaluate on basic machine learning models​, Deep learning is not tested when contains non-linear features (non- invasive determinants)** | #1 -> #12| We train and test on LightBGM for machine learning model and TabNet, MLP for deep learning |
+| G4 | **Only evaluate on basic machine learning models​, Deep learning is not tested when contains non-linear features (non- invasive determinants)** | #1 -> #12| We train and test on LightBGM for machine learning model and TabNet, MLP for deep learning |
 
 ### A4. PROBAST+AI appraisal of the most important paper in A2
 Paper #: #10 (Ahmed et al., 2026) · Why this paper: Direct state-of-the-art benchmark for machine learning-based LDL estimation on large-scale population data.
