@@ -88,14 +88,14 @@ Planned dates are given by week; add calendar dates.
 
 | Task | Owner (student ID / role) | Milestone (M3 week 10 · M4 week 12 · Final week 15) | Planned date | Status (Not started / In progress / Done + evidence) |
 |---|---|---|---|---|
-| Re-run 5-class baselines (add Logistic Regression) and proposed models on the same split | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: RF, XGBoost, LightGBM, MLP, TabNet done (slide 26); LR missing |
-| Add QWK, ordinal MAE, per-class recall with bootstrap 95% CI, AUC (one-vs-rest), calibration and Brier | 202414823 / Model Training & Validation | M3 | Week 10 | Not started (QWK and recall derived from slide 27 only) |
+| Re-run 5-class baselines (add Logistic Regression) and proposed models on the same split | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: RF, XGBoost, LightGBM, MLP, TabNet done; LR missing |
+| Add QWK, ordinal MAE, per-class recall with bootstrap 95% CI, AUC (one-vs-rest), calibration and Brier | 202414823 / Model Training & Validation | M3 | Week 10 | Not started |
 | 5-class ablation of scenarios A, B2, C (and TG-free E, F) | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: 3-class B1 done; regression A–F done; 5-class not run |
 | Leakage checks: label permutation on the full pipeline, deliberately leaky pipeline, formula baseline | 202414823 / Pipeline Design | M4 | Week 12 | In progress: formula baseline done (MAE 0.246); other checks not started |
-| SMOTE inside the pipeline (in-fold, adaptive k_neighbors) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: `build_pipeline` in the code (SMOTE after feature selection, `SMOTE_K` capped by the smallest class); slide 24 |
+| SMOTE inside the pipeline (in-fold, adaptive k_neighbors) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: `build_pipeline` in the code (SMOTE after feature selection, `SMOTE_K` capped by the smallest class) |
 | Imbalance ablation: no balancing vs SMOTE vs class weights, and preprocessing ablation (add one step at a time). `class_weight` is not yet set in any model | 202414851 / Data Preprocessing | M4 | Week 12 | Not started: no run without SMOTE or with class weights yet |
 | Feature-selection report (stage log, reasons, 5-fold stability) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: slides 20–24; outputs `feature_selection_report.csv`, `feature_selection_log.csv`, `feature_selection_stability.csv` |
-| SHAP of the final model for Scenario C and B2, class-specific (High, Very High) | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models, class High (slide 28); B2 and Very High pending |
+| SHAP of the final model for Scenario C and B2, class-specific (High, Very High) | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models, class High; B2 and Very High pending |
 | Verify literature matrix (DOIs, sample sizes, numbers) and finish B3 | 202414823 and 202414851 / Literature Review | M3 | Week 10 | In progress |
 | Datasheet, file checksums, FAIR and TRIPOD+AI checklist | 202414823 and 202414851 | M4 | Week 12 | Not started |
 | Final report, slides, repository clean-up, AI-use declaration | 202414823 and 202414851 | Final | Week 15 | Not started |
@@ -108,8 +108,6 @@ Planned dates are given by week; add calendar dates.
 - **Single split, no external validation.** Results come from one 80/20 split of one NHANES cycle (2021–2023). We plan the 2017–March 2020 cycle (`P_` files, triglyceride variable `LBXTR`) as temporal validation if time allows.
 - **Survey design ignored.** Weights and strata are not used, so results do not generalise to the US population. Question: is weighting required for this assignment?
 - **Metrics.** Only F1 and accuracy are reported so far. Question: for a 5-class ordinal target, which of AUC, calibration, QWK is expected in the TRIPOD+AI table?
-- **Inconsistencies to fix:** VIF and embedded selection flags across documentation; terminology regarding feature counts (141 raw features vs 61 processed columns); citations for cardiovascular death proportions; wording of "New" claims relative to reviewed literature.
-- **Literature matrix to verify:** Several DOIs in the background review look like placeholders and must be verified against Crossref before submission.
 
 ---
 
