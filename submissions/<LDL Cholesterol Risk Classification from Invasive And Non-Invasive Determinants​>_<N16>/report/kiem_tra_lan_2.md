@@ -89,13 +89,14 @@ Planned dates are given by week; add calendar dates.
 
 | Task | Owner (student ID / role) | Milestone (M3 week 10 · M4 week 12 · Final week 15) | Planned date | Status (Not started / In progress / Done + evidence) |
 |---|---|---|---|---|
-| Re-run 5-class baselines (add Logistic Regression) and proposed models on the same split | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: RF, XGBoost, LightGBM, MLP, TabNet done; LR added with evaluation results across balancing techniques. |
-| Add QWK, ordinal MAE, per-class recall with bootstrap 95% CI, AUC (one-vs-rest), calibration and Brier | 202414823 / Model Training & Validation | M3 | Week 10 | Not started (QWK and recall derived from preliminary confusion matrices only) |
+| Re-run 5-class baselines (add Logistic Regression) and proposed models on the same split | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: RF, XGBoost, LightGBM, MLP, TabNet done (slide 26); LR missing |
+| Add QWK, ordinal MAE, per-class recall with bootstrap 95% CI, AUC (one-vs-rest), calibration and Brier | 202414823 / Model Training & Validation | M3 | Week 10 | Not started (QWK and recall derived from slide 27 only) |
 | 5-class ablation of scenarios A, B2, C (and TG-free E, F) | 202414823 / Model Training & Validation | M3 | Week 10 | In progress: 3-class B1 done; regression A–F done; 5-class not run |
-| Leakage checks: label permutation on the full pipeline, deliberately leaky pipeline, formula baseline | 202414823 / Pipeline Design | M4 | Week 12 | In progress: formula baseline done (MAE 0.25 mg/dL, $R^2 \approx 0.9999$); other checks not started |
-| Preprocessing ablation; SMOTE vs SMOTENC vs class weights | 202414851 / Data Preprocessing | M4 | Week 12 | Not started |
-| Feature-selection report (stage log, reasons, 5-fold stability) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: outputs generated (`feature_selection_report.csv`, `feature_selection_log.csv`, `feature_selection_stability.csv`) |
-| SHAP of the final model for Scenario C and B2, class-specific (High, Very High) | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models, class High done; B2 and Very High pending |
+| Leakage checks: label permutation on the full pipeline, deliberately leaky pipeline, formula baseline | 202414823 / Pipeline Design | M4 | Week 12 | In progress: formula baseline done (MAE 0.246); other checks not started |
+| SMOTE inside the pipeline (in-fold, adaptive k_neighbors) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: `build_pipeline` in the code (SMOTE after feature selection, `SMOTE_K` capped by the smallest class); slide 24 |
+| Imbalance ablation: no balancing vs SMOTE vs class weights, and preprocessing ablation (add one step at a time). `class_weight` is not yet set in any model | 202414851 / Data Preprocessing | M4 | Week 12 | Not started: no run without SMOTE or with class weights yet |
+| Feature-selection report (stage log, reasons, 5-fold stability) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: slides 20–24; outputs `feature_selection_report.csv`, `feature_selection_log.csv`, `feature_selection_stability.csv` |
+| SHAP of the final model for Scenario C and B2, class-specific (High, Very High) | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models, class High (slide 28); B2 and Very High pending |
 | Verify literature matrix (DOIs, sample sizes, numbers) and finish B3 | 202414823 and 202414851 / Literature Review | M3 | Week 10 | In progress |
 | Datasheet, file checksums, FAIR and TRIPOD+AI checklist | 202414823 and 202414851 | M4 | Week 12 | Not started |
 | Final report, slides, repository clean-up, AI-use declaration | 202414823 and 202414851 | Final | Week 15 | Not started |
