@@ -69,10 +69,9 @@ Applicability to your team's problem: Low applicability for non-invasive risk sc
 ### B2. Ablation (Milestone 3)
 | Configuration (component removed / changed) | Main metric | Difference vs full model | Source |
 |---|---|---|---|
-| Scenario C (Full: Lipid + Non-invasive) | Test Macro-F1: 0.9362 (XGBoost) | Base Reference | `notebooks/ablation_experiments.ipynb` |
-| Scenario B1 (No Lipids, keeping BIOPRO + Non-invasive) | Test Macro-F1: 0.4172 (XGBoost) | -0.5190 (-55.4%) | `notebooks/ablation_experiments.ipynb` |
-| Scenario B1 (No Lipids - Random Forest) | Test Macro-F1: 0.4318 (RF) | -0.4438 (-50.7%) | `notebooks/ablation_experiments.ipynb` |
-| Scenario B1 (No Lipids - Logistic Regression) | Test Macro
+| Scenario A (Lipid-only) | Test Macro-F1: 0.9089 | -0.0014 (-0.2%) |`submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py`|
+| Scenario B (Non-lipid) | Test Macro-F1:0.2343 | -0.6760 (-74.3%) | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py` |
+| Scenario C (All features) | Test Macro-F1:0.9Z246 | Base Reference | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py` |
 
 ### B3. Comparison with the literature
 | Paper | Their setting | Their result | Our result (B1, Scenario C) | What makes the comparison unfair |
