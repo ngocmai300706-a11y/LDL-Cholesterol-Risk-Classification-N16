@@ -57,14 +57,14 @@ Applicability to your team's problem: Low applicability for non-invasive risk sc
 ## B. Results and timeline
 
 ### B1. Current results
+
 | Model | Evaluation set (split method, n) | Main metric (value, 95% CI if available) | Secondary metrics | Source of numbers (file / notebook / W&B) |
 |---|---|---|---|---|
-| Baseline 1 (Logistic Regression - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.9672 | Accuracy: 97.75%, High Recall: 1.00 | `notebooks/04_model_evaluation.ipynb` |
-| Baseline 2 (Random Forest - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.8756 | Accuracy: 89.73%, High Recall: 0.87 | `notebooks/04_model_evaluation.ipynb` |
-| Baseline 3 (XGBoost - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.9362 | Accuracy: 95.02%, High Recall: 0.91 | `notebooks/04_model_evaluation.ipynb` |
-| Proposed Model 1 (LightGBM - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.9176 | Accuracy: 92.78%, Weighted-F1: 0.9278 | `notebooks/05_proposed_models.ipynb` |
-| Proposed Model 2 (Tabular MLP - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.9123 | Accuracy: 94.38%, Weighted-F1: 0.9440 | `notebooks/05_proposed_models.ipynb` |
-| Proposed Model 3 (TabNet - Scenario C) | 80/20 Stratified Split (n_test = 623) | Test Macro-F1: 0.9193 | Accuracy: 94.70%, Weighted-F1: 0.9467 | `notebooks/05_proposed_models.ipynb` |
+| Baseline 1 (Milestone 2) - Logistic Regression | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9360 (CV: 0.9505 ± 0.0192) | Test Accuracy: 0.9615, Weighted-F1: 0.96 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Baseline 2 - Random Forest | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8389 (CV: 0.7940 ± 0.0284) | Test Accuracy: 0.8764, Weighted-F1: 0.88 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - XGBoost | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9262 (CV: 0.8557 ± 0.0163) | Test Accuracy: 0.9390, Weighted-F1: 0.94 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - LightGBM | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8963 (CV: 0.8594 ± 0.0184) | Test Accuracy: 0.9294, Weighted-F1: 0.93 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - MLP | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9533 (CV: 0.9012 ± 0.0242) | Test Accuracy: 0.9551, Weighted-F1: 0.96 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
 
 ### B2. Ablation (Milestone 3)
 | Configuration (component removed / changed) | Main metric | Difference vs full model | Source |
