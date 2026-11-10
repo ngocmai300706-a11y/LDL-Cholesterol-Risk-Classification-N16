@@ -95,7 +95,7 @@ Planned dates are given by week; add calendar dates.
 | SMOTE inside the pipeline (in-fold, adaptive k_neighbors) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: `build_pipeline` in the code (SMOTE after feature selection, `SMOTE_K` capped by the smallest class) |
 | Imbalance ablation: no balancing vs SMOTE vs class weights, and preprocessing ablation (add one step at a time). `class_weight` is not yet set in any model | 202414851 / Data Preprocessing | M4 | Week 12 | Not started: no run without SMOTE or with class weights yet |
 | Feature-selection report (stage log, reasons, 5-fold stability) | 202414851 / Data Preprocessing | M3 | Week 10 | Done: slides 20–24; outputs `feature_selection_report.csv`, `feature_selection_log.csv`, `feature_selection_stability.csv` |
-| SHAP of the final model for Scenario C and B2, class-specific (High, Very High) | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models, class High; B2 and Very High pending |
+| SHAP of the final model for classes | 202414851 / XAI (SHAP) | M4 | Week 12 | In progress: beeswarm for 5 models: Optimal, Near Optimal, Borderline High, High, Very high |
 | Verify literature matrix (DOIs, sample sizes, numbers) and finish B3 | 202414823 and 202414851 / Literature Review | M3 | Week 10 | In progress |
 | Datasheet, file checksums, FAIR and TRIPOD+AI checklist | 202414823 and 202414851 | M4 | Week 12 | Not started |
 | Final report, slides, repository clean-up, AI-use declaration | 202414823 and 202414851 | Final | Week 15 | Not started |
