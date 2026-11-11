@@ -1,4 +1,4 @@
-<img width="273" height="326" alt="image" src="https://github.com/user-attachments/assets/3eb441b8-650b-45f5-9811-12d1626ca694" /><img width="1916" height="1194" alt="image" src="https://github.com/user-attachments/assets/921dc7d3-a7b6-4f71-91e8-786d3cb55c49" /># Progress Test 2 — group-16 — ldl-cholesterol-classification
+# Progress Test 2 — group-16 — ldl-cholesterol-classification
 
 - Fork: https://github.com/ngocmai300706-a11y/hymt-project/tree/gd5-proposed-model · Branch: gd5-proposed-model
 - Members (student ID or alias) and roles:
