@@ -1,4 +1,4 @@
-# Progress Test 2 — group-16 — ldl-cholesterol-classification
+<img width="273" height="326" alt="image" src="https://github.com/user-attachments/assets/3eb441b8-650b-45f5-9811-12d1626ca694" /><img width="1916" height="1194" alt="image" src="https://github.com/user-attachments/assets/921dc7d3-a7b6-4f71-91e8-786d3cb55c49" /># Progress Test 2 — group-16 — ldl-cholesterol-classification
 
 - Fork: https://github.com/ngocmai300706-a11y/hymt-project/tree/gd5-proposed-model · Branch: gd5-proposed-model
 - Members (student ID or alias) and roles:
@@ -23,8 +23,8 @@ Inclusion / exclusion criteria:
 | # | Paper (authors, year) | DOI / link | Dataset (n, source) | Method | Main result (metric, value) | External validation? (yes / no) | Main limitation |
 |---|---|---|---|---|---|---|---|
 | 1 | Fazakis et al. (2021) | DOI:10.5220/0010727200003063 | ELSA (n=7,526) | 8 ML models, 10-fold CV, undersampling, 22 features (Gini & Stepwise) | Accuracy: 56.0%–63.0% | No | Undersampling and importance-based reduction are applied before cross-validation (leakage risk). Low predictive power using non-invasive features alone |
-| 2 | García-D'Urso et al. (2022) | DOI:10.1109/ACCESS.2022.3168231 | Overweight adults (n=84) | ETR, RFE, Hyperparameter Optimization, RFR | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
-| 3 | Kwon et al. (2022) | DOI:10.3389/fcvm.2022.846545 | Health-check (n=129,930 GSHC + n=46,470 KOICA) | Pyramid DNN with 6 hidden layers (30 nodes/layer), 10-fold CV | Superior accuracy compared to Friedewald and NIH equations | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
+| 2 | García-D'Urso et al. (2022) | DOI:10.1109/ACCESS.2022.3178419 | Overweight adults (n=84) | ETR, RFE, Hyperparameter Optimization, RFR | MAE / RMSE metrics | No | Very small sample size, potential subject leakage |
+| 3 | Kwon et al. (2022) | DOI:10.3389/fcvm.2022.824574 | Health-check (n=129,930 GSHC + n=46,470 KOICA) | Pyramid DNN with 6 hidden layers (30 nodes/layer), 10-fold CV | Superior accuracy compared to Friedewald and NIH equations | Yes (KOICA) | Uses homogenous assay reference, not gold-standard β-quantification |
 | 4 | Li et al. (2022) | DOI:10.1186/s12944-022-01721-y | NHANES 2007–2018 (n=15,499) | Multivariable Logistic Regression & hypertriglyceridemia across demographic subgroups | Adjusted Odds Ratios | No | Descriptive epidemiological study; no ML predictive modelling |
 | 5 | Fan et al. (2022) | DOI:10.1016/j.cca.2022.08.007 | Chinese profiles (n=111,448) | RF, Decision Trees; trained on 5-fold CV, external validation on 3 separate datasets; compared with Friedewald, Martin/Hopkins, and Sampson equations | Lower error rates in Chinese population; less affected by age; highly accurate LDL-C estimation | Yes (3 external sets) | Lacks gold-standard β-quantification reference; direct algebraic lipid ratios used. Uses only age, sex and lipid parameters, with derived features such as TC–HDL and TC–TG that are collinear by construction; no VIF or correlation filtering is reported, and clinical/anthropometric variables are not considered.​ |
 | 6 | Kim et al. (2024) | DOI:10.1093/labmed/lmad114 | KNHANES (n=9,402) | Regression, penalized regression, Random Forest, XGBoost, and a proposed two-step ML model (Linear + XGB/RF), compared with Friedewald, Martin, and Sampson equations | Concordance: 85.1%, lowest RMSE | Yes (Independent years) | Still relies on invasive laboratory measurements; cannot fully capture non-linear lipid relationships |
@@ -62,18 +62,18 @@ Applicability to your team's problem: Low applicability for non-invasive risk sc
 
 | Model | Evaluation set (split method, n) | Main metric (value, 95% CI if available) | Secondary metrics | Source of numbers (file / notebook / W&B) |
 |---|---|---|---|---|
-| Baseline 1 (Milestone 2) - Logistic Regression | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9360 (CV: 0.9505 ± 0.0192) | Test Accuracy: 0.9615, Weighted-F1: 0.96 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
-| Baseline 2 - Random Forest | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8389 (CV: 0.7940 ± 0.0284) | Test Accuracy: 0.8764, Weighted-F1: 0.88 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
-| Proposed model (Milestone 3) - XGBoost | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9262 (CV: 0.8557 ± 0.0163) | Test Accuracy: 0.9390, Weighted-F1: 0.94 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
-| Proposed model (Milestone 3) - LightGBM | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8963 (CV: 0.8594 ± 0.0184) | Test Accuracy: 0.9294, Weighted-F1: 0.93 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
-| Proposed model (Milestone 3) - MLP | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9533 (CV: 0.9012 ± 0.0242) | Test Accuracy: 0.9551, Weighted-F1: 0.96 | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants>_<N16>/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Baseline 1 (Milestone 2) - Logistic Regression | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9360 (CV: 0.9505 ± 0.0192) | Test Accuracy: 0.9615, Weighted-F1: 0.96 | `submissions/ldl_cholesterol_levels_classification_N16/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Baseline 2 - Random Forest | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8389 (CV: 0.7940 ± 0.0284) | Test Accuracy: 0.8764, Weighted-F1: 0.88 | `submissions/ldl_cholesterol_levels_classification_N16/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - XGBoost | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9262 (CV: 0.8557 ± 0.0163) | Test Accuracy: 0.9390, Weighted-F1: 0.94 | `submissions/ldl_cholesterol_levels_classification_N16/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - LightGBM | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.8963 (CV: 0.8594 ± 0.0184) | Test Accuracy: 0.9294, Weighted-F1: 0.93 | `submissions/ldl_cholesterol_levels_classification_N16/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
+| Proposed model (Milestone 3) - MLP | Stratified 5-fold CV, Test n=623 | Test Macro-F1: 0.9533 (CV: 0.9012 ± 0.0242) | Test Accuracy: 0.9551, Weighted-F1: 0.96 | `submissions/ldl_cholesterol_levels_classification_N16/src/run_analysis.py` ([Colab Link](https://colab.research.google.com/drive/1NNghBDIziMYZxsnOCX0zA7aLdUUAun4F?usp=sharing)) |
 
 ### B2. Ablation (Milestone 3)
 | Configuration (component removed / changed) | Main metric | Difference vs full model | Source |
 |---|---|---|---|
-| Scenario A (Lipid-only) | Test Macro-F1: 0.9089 | -0.0014 (-0.2%) |`submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py`|
-| Scenario B (Non-lipid) | Test Macro-F1:0.2343 | -0.6760 (-74.3%) | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py` |
-| Scenario C (All features) | Test Macro-F1:0.9Z246 | Base Reference | `submissions/<LDL Cholesterol Risk Classification from Invasive And Non-Invasive Determinants​>_<N16>/src/run_ablation.py` |
+| Scenario A (Lipid-only) | Test Macro-F1: 0.9089 | -0.0014 (-0.2%) |`submissions/ldl_cholesterol_levels_classification_N16/src/run_ablation.py`|
+| Scenario B (Non-lipid) | Test Macro-F1:0.2343 | -0.6760 (-74.3%) | `submissions/ldl_cholesterol_levels_classification_N16/src/run_ablation.py` |
+| Scenario C (All features) | Test Macro-F1:0.9Z246 | Base Reference | `submissions/ldl_cholesterol_levels_classification_N16/src/run_ablation.py` |
 
 ### B3. Comparison with the literature
 | Paper | Their setting | Their result | Our result (B1, Scenario C) | What makes the comparison unfair |
@@ -150,8 +150,6 @@ Applicability (population, setting where the model would be used): US adults in 
 | Is the sample size sufficient; applicability limits | Not yet: $n = 3,115$ overall but Very High = 55 | B5, C3 |
 
 ---
-
-## D. AI use declaration
 
 ## D. AI use declaration
 
